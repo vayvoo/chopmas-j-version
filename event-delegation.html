@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event delegation demo</title>
+</head>
+<body>
+
+  <ul>
+     <li>Todo text - <button class="js-delete-button" type="button">X</button></li>
+    <!--<li>Todo text - <button class="js-delete-button" type="button">X</button></li>
+    <li>Todo text - <button class="js-delete-button" type="button">X</button></li>
+    <li>Todo text - <button class="js-delete-button" type="button">X</button></li> -->
+  </ul>
+
+  <script>
+    // var elsDeletButton = document.querySelectorAll('.js-delete-button');
+    // console.log(elsDeletButton);
+
+    // if (elsDeletButton.length > 0) {
+    //   elsDeletButton.forEach(function (deleteButton) {
+    //     deleteButton.addEventListener('click', function () {
+    //       alert('Iiiii, bosvoldiz');
+    //     });
+    //   });
+    // }
+
+    // EVENT DELEGATION
+    var elList = document.querySelector('ul');
+
+    elList.addEventListener('click', function (evt) {
+      console.log(evt.target);
+      if (evt.target.matches('.js-delete-button')) {
+        alert('Iiii, bosvoldiz');
+      }
+    });
+  </script>
+</body>
+</html>

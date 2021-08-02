@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project</title>
+  <link rel="stylesheet" href="css/normalize.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Pitsa buyurtma qilish</h1>
+    <form class="pizza-form" action="https://echo.htmlacademy.ru" method="POST">
+      <div class="pizza-form__fields">
+        <div class="pizza-form__group">
+          <label for="bread-type-select">Noni qanday bo'lsin</label>
+          <select class="pizza-form__field" name="bread_type" id="bread-type-select">
+            <option value="yupqa">Yupqa</option>
+            <option value="qalin">Qalin</option>
+            <option value="buxanka">Buxanka</option>
+          </select>
+        </div>
+
+        <div class="pizza-form__group">
+          <fieldset class="pizza-form__sizes">
+            <legend>Kattaligi</legend>
+          </fieldset>
+        </div>
+
+        <div class="pizza-form__group">
+          <fieldset class="pizza-form__toppings">
+            <legend>Ustiga nima solaylik?</legend>
+          </fieldset>
+        </div>
+      </div>
+
+
+      <div class="pizza-form__result">
+        <p>O'lcham <span class="pizza-form__size-result"></span></p>
+        <ul class="pizza-form__topping-result">
+
+        </ul>
+      </div>
+      
+    </form>
+  </div>
+
+
+  <template class="pizza-type-option-template">
+    <option value=""></option>
+  </template>
+
+  <template class="pizza-size-radio-template">
+    <label class="radio">
+      <input class="radio__input visually-hidden" type="radio" name="size" value="">
+      <span class="radio__control"></span>
+    </label>
+  </template>
+
+  <template class="pizza-topping-checkbox-template">
+    <label class="checkbox">
+      <input class="checkbox__input visually-hidden" type="checkbox" name="">
+      <span class="checkbox__control"></span>
+    </label>
+  </template>
+
+  <template class="pizza-topping-list-template">
+    <li class="pizza-topping-list-item"></li>
+  </template>
+
+
+  <!-- VUE DEMO -->
+  <!-- <div id="vue">
+    <ul>
+      <li v-for="student in students">
+        {{ student.name }} is {{ student.age }} years old
+      </li>
+    </ul>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script>
+    var app3 = new Vue({
+      el: '#vue',
+      data: {
+        students: [
+          { name: 'Otabek', age: 17 },
+          { name: 'Hojiakbar', age: 18 },
+          { name: 'Farruh', age: 21 }
+        ]
+      }
+    })
+  </script> -->
+  <script src="js/main.js"></script>
+</body>
+</html>
