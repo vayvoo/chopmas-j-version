@@ -74,6 +74,10 @@ let pizzaOptions = {
 };
 let order = {};
 let toppingarr = [];
+let price = 0;
+let breadPrice = 0;
+let sizePrice = 0;
+let addlPrice = 0;
 
 let elPizzaSizeRadioTemplate = document.querySelector('.pizza-size-radio-template').content;
 let elPizzaToppingCheckboxTemplate = document.querySelector('.pizza-topping-checkbox-template').content;
@@ -85,6 +89,8 @@ let elPizzaToppings = elPizzaForm.querySelector('.pizza-form__toppings');
 let elPizzaSizeResult = elPizzaForm.querySelector('.pizza-form__size-result');
 let elPizzaToppingResult = elPizzaForm.querySelector('.pizza-form__topping-result');
 let elPizzaToppingList = elPizzaForm.querySelector('.pizza-form__topping-result');
+let priceResult = elPizzaForm.querySelector('.pizza-form__all-costs');
+let select = document.querySelector('.pizza-form__field');
 
 
 // input size object {size, name, price}, output - HTML element
@@ -142,12 +148,21 @@ function showPizzaToppings () {
 showPizzaSizeRadios();
 showPizzaToppings();
 
+select.addEventListener('change', () => {
+  order.breadTypes = pizzaOptions.breadTypes.find(breadTypes => breadTypes.name === select.value)
+  document.querySelector('.pizza-form__bread-types-result').textContent = order.breadTypes.name;
+  breadPrice = order.breadTypes.price;
+  priceResult.textContent = breadPrice + price + sizePrice + addlPrice;
+})
+
 let elsSizeRadio = document.querySelectorAll('.radio__input');
 if (elsSizeRadio.length > 0) {
   elsSizeRadio.forEach(function (radio) {
     radio.addEventListener('change', function () {
       order.size = pizzaOptions.sizes.find(size => size.size === Number(radio.value));
       elPizzaSizeResult.textContent = order.size.size + ' sm';
+      sizePrice = order.size.price
+      priceResult.textContent = breadPrice + price + sizePrice + addlPrice
     });
   });
 }
@@ -157,29 +172,16 @@ elsPizzaToppings.forEach(item => {
   item.addEventListener('click', () => {
     if (item.checked) {
       order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
-      //price += order.topChecked.price;
+      price += order.topChecked.price;
     }
     else if (!item.checked) {
       order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
-      //price -= order.topChecked.price;
+      price -= order.topChecked.price;
     }
-    //document.querySelector('.pizza-form__all-costs').textContent = breadPrice + price + sizePrice + addlPrice
+    priceResult.textContent = breadPrice + price + sizePrice + addlPrice
   })
 })
 
-elsPizzaToppings.forEach(item => {
-  item.addEventListener('click', () => {
-    if (item.checked) {
-      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
-      //price += order.topChecked.price;
-    }
-    else if (!item.checked) {
-      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
-      //price -= order.topChecked.price;
-    }
-    //document.querySelector('.pizza-form__all-costs').textContent = breadPrice + price + sizePrice + addlPrice
-  })
-})
 
 elsPizzaToppings.forEach(item => {
   item.addEventListener('click', () => {
