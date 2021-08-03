@@ -73,29 +73,30 @@ let pizzaOptions = {
   ]
 };
 let order = {};
+let toppingarr = [];
 
-var elPizzaSizeRadioTemplate = document.querySelector('.pizza-size-radio-template').content;
-var elPizzaToppingCheckboxTemplate = document.querySelector('.pizza-topping-checkbox-template').content;
-var elPizzaToppingListTemplate = document.querySelector('.pizza-topping-list-template').content;
+let elPizzaSizeRadioTemplate = document.querySelector('.pizza-size-radio-template').content;
+let elPizzaToppingCheckboxTemplate = document.querySelector('.pizza-topping-checkbox-template').content;
+let elPizzaToppingListTemplate = document.querySelector('.pizza-topping-list-template').content;
 
-var elPizzaForm = document.querySelector('.pizza-form');
-var elPizzaSizes = elPizzaForm.querySelector('.pizza-form__sizes');
-var elPizzaToppings = elPizzaForm.querySelector('.pizza-form__toppings');
-var elPizzaSizeResult = elPizzaForm.querySelector('.pizza-form__size-result');
-var elPizzaToppingResult = elPizzaForm.querySelector('.pizza-form__topping-result');
-var elPizzaToppingList = elPizzaForm.querySelector('.pizza-form__topping-result');
+let elPizzaForm = document.querySelector('.pizza-form');
+let elPizzaSizes = elPizzaForm.querySelector('.pizza-form__sizes');
+let elPizzaToppings = elPizzaForm.querySelector('.pizza-form__toppings');
+let elPizzaSizeResult = elPizzaForm.querySelector('.pizza-form__size-result');
+let elPizzaToppingResult = elPizzaForm.querySelector('.pizza-form__topping-result');
+let elPizzaToppingList = elPizzaForm.querySelector('.pizza-form__topping-result');
 
 
 // input size object {size, name, price}, output - HTML element
 function createSizeRadio (size) {
-  var elSizeRadio = elPizzaSizeRadioTemplate.cloneNode(true);
+  let elSizeRadio = elPizzaSizeRadioTemplate.cloneNode(true);
   elSizeRadio.querySelector('.radio__input').value = size.size;
   elSizeRadio.querySelector('.radio__control').textContent = size.name + ' ' + size.size + ' ' + ' cm';
   return elSizeRadio;
 }
 
 function showPizzaSizeRadios () {
-  var elSizeRadiosFragment = document.createDocumentFragment();
+  let elSizeRadiosFragment = document.createDocumentFragment();
   pizzaOptions.sizes
     .slice()
     .sort(function (a, b) {
@@ -108,7 +109,8 @@ function showPizzaSizeRadios () {
 }
 
 function createToppingCheckbox (topping) {
-  var elToppingCheckbox = elPizzaToppingCheckboxTemplate.cloneNode(true);
+  let elToppingCheckbox = elPizzaToppingCheckboxTemplate.cloneNode(true);
+  elToppingCheckbox.querySelector('.checkbox__input').value = topping.name;
   elToppingCheckbox.querySelector('.checkbox__input').name = topping.name;
   elToppingCheckbox.querySelector('.checkbox__control').textContent = topping.name;
   return elToppingCheckbox;
@@ -118,7 +120,7 @@ function createToppingCheckbox (topping) {
 // Options ichidagi topping qiymatlari checkboxlarini sahifaga joylash
 // method chaining
 function showPizzaToppings () {
-  var elToppingsFragment = document.createDocumentFragment();
+  let elToppingsFragment = document.createDocumentFragment();
   pizzaOptions.toppings
     .slice()
     .sort(function (a, b) {
@@ -130,29 +132,17 @@ function showPizzaToppings () {
       }
       return 0;
     })
-    .forEach(function (topping) {
-      elToppingsFragment.appendChild(createToppingCheckbox(topping));
+    .forEach(function (item) {
+      elToppingsFragment.appendChild(createToppingCheckbox(item));
     });
   elPizzaToppings.appendChild(elToppingsFragment);
 }
 
-// Tanlangan toppinglarni list korinishida chiqarish
-function createToppingList (list) {
-  var elToppingList = elPizzaToppingListTemplate.cloneNode(true);
-  elToppingList.querySelector('.pizza-topping-list-item').textContent = list;
-  return elToppingList;
-}
-
-function showPizzaToppingList(selected) {
-  var elToppingListFragment = document.createDocumentFragment();
-    elToppingListFragment.appendChild(createToppingList(selected))
-    elPizzaToppingList.appendChild(elToppingListFragment); //ulni ichiga qoshish
-}
 
 showPizzaSizeRadios();
 showPizzaToppings();
 
-var elsSizeRadio = document.querySelectorAll('.radio__input');
+let elsSizeRadio = document.querySelectorAll('.radio__input');
 if (elsSizeRadio.length > 0) {
   elsSizeRadio.forEach(function (radio) {
     radio.addEventListener('change', function () {
@@ -162,20 +152,59 @@ if (elsSizeRadio.length > 0) {
   });
 }
 
-var elsPizzaToppings = document.querySelectorAll('.checkbox__input');
-if (elsPizzaToppings.length > 0) {
-  elsPizzaToppings.forEach(function (checkbox) {
-    checkbox.addEventListener('change', function () {
-      if(checkbox.checked){
-        var elPizzaList =  checkbox.name;
-        order.topping = pizzaOptions.toppings.find(topping => topping.name === elPizzaList);
-        showPizzaToppingList(elPizzaList);
-      }
-      else{
-        
-      }
-    });
-  });
+let elsPizzaToppings = document.querySelectorAll('.checkbox__input');
+elsPizzaToppings.forEach(item => {
+  item.addEventListener('click', () => {
+    if (item.checked) {
+      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
+      //price += order.topChecked.price;
+    }
+    else if (!item.checked) {
+      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
+      //price -= order.topChecked.price;
+    }
+    //document.querySelector('.pizza-form__all-costs').textContent = breadPrice + price + sizePrice + addlPrice
+  })
+})
+
+elsPizzaToppings.forEach(item => {
+  item.addEventListener('click', () => {
+    if (item.checked) {
+      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
+      //price += order.topChecked.price;
+    }
+    else if (!item.checked) {
+      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
+      //price -= order.topChecked.price;
+    }
+    //document.querySelector('.pizza-form__all-costs').textContent = breadPrice + price + sizePrice + addlPrice
+  })
+})
+
+elsPizzaToppings.forEach(item => {
+  item.addEventListener('click', () => {
+
+    if (toppingarr.includes(item.name)) {
+      const index = toppingarr.findIndex(e => e === item.name)
+      toppingarr.splice(index, 1)
+    }
+    else {
+      toppingarr.push(item.name)
+    }
+    displayD(toppingarr)
+  })
+})
+function displayD(arry) {
+  elPizzaToppingList.innerHTML = ""
+  const frg = document.createDocumentFragment();
+
+  arry.forEach(item => {
+    let elT = elPizzaToppingListTemplate.cloneNode(true)
+    elT.querySelector('.pizza-topping-list-item').textContent = item;
+
+    frg.appendChild(elT);
+  })
+  elPizzaToppingList.appendChild(frg);
 }
 
 
