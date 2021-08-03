@@ -34,13 +34,23 @@
             <legend>Ustiga nima solaylik?</legend>
           </fieldset>
         </div>
+        <div class="pizza-form__group">
+          <fieldset class="pizza-form__addl">
+            <legend>Qo'shimcha nima bosin?</legend>
+          </fieldset>
+        </div>
       </div>
 
 
       <div class="pizza-form__result">
         <p>Nonning turi: <span class="pizza-form__bread-types-result"></span></p>
         <p>O'lcham <span class="pizza-form__size-result"></span></p>
+        <p>Ustidagi masalliqlar:</p>
         <ul class="pizza-form__topping-result">
+
+        </ul>
+        <p>Qo'shimcha:</p>
+        <ul class="pizza-form__addl-result">
 
         </ul>
         <p>Umumiy Narx: <span class="pizza-form__all-costs"></span></p>
@@ -63,13 +73,27 @@
 
   <template class="pizza-topping-checkbox-template">
     <label class="checkbox">
-      <input class="checkbox__input visually-hidden" type="checkbox" name="">
+      <input class="checkbox__input visually-hidden" type="checkbox" name="" value="">
       <span class="checkbox__control"></span>
     </label>
   </template>
 
+  <template class="pizza-addl-checkbox-template">
+    <label class="checkbox">
+      <input class="checkbox__addl visually-hidden" type="checkbox" name="" value="">
+      <span class="checkbox__control"></span>
+    </label>
+  </template>
+
+  
+
   <template class="pizza-topping-list-template">
     <li class="pizza-topping-list-item"></li>
+  </template>
+
+
+  <template class="pizza-addl-list-template">
+    <li class="pizza-addl-list-item"></li>
   </template>
 
 

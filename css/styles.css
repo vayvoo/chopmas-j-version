@@ -88,3 +88,6 @@ img {
 .checkbox__input:checked ~ .checkbox__control::before {
   background-color: tomato;
 }
+.checkbox__addl:checked ~ .checkbox__control::before {
+  background-color: tomato;
+}

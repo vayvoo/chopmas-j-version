@@ -74,6 +74,7 @@ let pizzaOptions = {
 };
 let order = {};
 let toppingarr = [];
+let addlarr = [];
 let price = 0;
 let breadPrice = 0;
 let sizePrice = 0;
@@ -82,13 +83,17 @@ let addlPrice = 0;
 let elPizzaSizeRadioTemplate = document.querySelector('.pizza-size-radio-template').content;
 let elPizzaToppingCheckboxTemplate = document.querySelector('.pizza-topping-checkbox-template').content;
 let elPizzaToppingListTemplate = document.querySelector('.pizza-topping-list-template').content;
+let elPizzaAddlListTemplate = document.querySelector('.pizza-addl-checkbox-template').content;
+let elPizzaAddlListResultTemplate = document.querySelector('.pizza-addl-list-template').content;
 
 let elPizzaForm = document.querySelector('.pizza-form');
 let elPizzaSizes = elPizzaForm.querySelector('.pizza-form__sizes');
 let elPizzaToppings = elPizzaForm.querySelector('.pizza-form__toppings');
+let elPizzaAddl = elPizzaForm.querySelector('.pizza-form__addl');
 let elPizzaSizeResult = elPizzaForm.querySelector('.pizza-form__size-result');
 let elPizzaToppingResult = elPizzaForm.querySelector('.pizza-form__topping-result');
 let elPizzaToppingList = elPizzaForm.querySelector('.pizza-form__topping-result');
+let elPizzaAddlList = elPizzaForm.querySelector('.pizza-form__addl-result');
 let priceResult = elPizzaForm.querySelector('.pizza-form__all-costs');
 let select = document.querySelector('.pizza-form__field');
 
@@ -122,6 +127,14 @@ function createToppingCheckbox (topping) {
   return elToppingCheckbox;
 }
 
+function createAddlCheckbox (addl) {
+  let elAddlCheckbox = elPizzaAddlListTemplate.cloneNode(true);
+  elAddlCheckbox.querySelector('.checkbox__addl').value = addl.name;
+  elAddlCheckbox.querySelector('.checkbox__addl').name = addl.name;
+  elAddlCheckbox.querySelector('.checkbox__control').textContent = addl.name;
+  return elAddlCheckbox;
+}
+
 
 // Options ichidagi topping qiymatlari checkboxlarini sahifaga joylash
 // method chaining
@@ -144,9 +157,31 @@ function showPizzaToppings () {
   elPizzaToppings.appendChild(elToppingsFragment);
 }
 
+//Qoshimchalarni chiqarish
+
+function showPizzaAddl () {
+  let elAddlFragment = document.createDocumentFragment();
+  pizzaOptions.addl
+    .slice()
+    .sort(function (a, b) {
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      return 0;
+    })
+    .forEach(function (item) {
+      elAddlFragment.appendChild(createAddlCheckbox(item));
+    });
+  elPizzaAddl.appendChild(elAddlFragment);
+}
+
 
 showPizzaSizeRadios();
 showPizzaToppings();
+showPizzaAddl();
 
 select.addEventListener('change', () => {
   order.breadTypes = pizzaOptions.breadTypes.find(breadTypes => breadTypes.name === select.value)
@@ -171,11 +206,11 @@ let elsPizzaToppings = document.querySelectorAll('.checkbox__input');
 elsPizzaToppings.forEach(item => {
   item.addEventListener('click', () => {
     if (item.checked) {
-      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
+      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value);
       price += order.topChecked.price;
     }
     else if (!item.checked) {
-      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value)
+      order.topChecked = pizzaOptions.toppings.find(toppings => toppings.name === item.value);
       price -= order.topChecked.price;
     }
     priceResult.textContent = breadPrice + price + sizePrice + addlPrice
@@ -196,6 +231,7 @@ elsPizzaToppings.forEach(item => {
     displayD(toppingarr)
   })
 })
+
 function displayD(arry) {
   elPizzaToppingList.innerHTML = ""
   const frg = document.createDocumentFragment();
@@ -209,7 +245,50 @@ function displayD(arry) {
   elPizzaToppingList.appendChild(frg);
 }
 
+// Qo'shimchalar bilan ishlas
 
+let elsPizzaAddl = document.querySelectorAll('.checkbox__addl');
+elsPizzaAddl.forEach(item => {
+  item.addEventListener('click', () => {
+    if (item.checked) {
+      order.addlChecked = pizzaOptions.addl.find(addl => addl.name === item.value);
+      price += order.addlChecked.price;
+    }
+    else if (!item.checked) {
+      order.addlChecked = pizzaOptions.addl.find(addl => addl.name === item.value);
+      price -= order.addlChecked.price;
+    }
+    priceResult.textContent = breadPrice + price + sizePrice + addlPrice
+  })
+})
+
+
+elsPizzaAddl.forEach(item => {
+  item.addEventListener('click', () => {
+
+    if (addlarr.includes(item.name)) {
+      const index = addlarr.findIndex(e => e === item.name)
+      addlarr.splice(index, 1)
+    }
+    else {
+      addlarr.push(item.name);
+    }
+    displayA(addlarr);
+  })
+})
+
+function displayA(arry) {
+  elPizzaAddlList.innerHTML = ""
+  const frg = document.createDocumentFragment();
+
+  arry.forEach(item => {
+    let elT = elPizzaAddlListResultTemplate.cloneNode(true)
+    elT.querySelector('.pizza-addl-list-item').textContent = item;
+
+    frg.appendChild(elT);
+  })
+  elPizzaAddlList.appendChild(frg);
+}
 
 
 
